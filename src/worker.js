@@ -6,11 +6,7 @@ function redirect(url, base) {
 	return Response.redirect(new URL(url, base), 303);
 }
 
-export async function onRequestGet({ request }) {
-	return redirect('/#inscripcion', request.url);
-}
-
-export async function onRequestPost({ request, env }) {
+async function manejarInscripcion(request, env) {
 	try {
 		const formData = await request.formData();
 
@@ -79,3 +75,20 @@ export async function onRequestPost({ request, env }) {
 		return redirect('/?error=1#inscripcion', request.url);
 	}
 }
+
+export default {
+	async fetch(request, env) {
+		const url = new URL(request.url);
+
+		if (url.pathname === '/api/inscripcion') {
+			if (request.method === 'POST') {
+				return manejarInscripcion(request, env);
+			}
+			if (request.method === 'GET') {
+				return redirect('/#inscripcion', request.url);
+			}
+		}
+
+		return env.ASSETS.fetch(request);
+	},
+};

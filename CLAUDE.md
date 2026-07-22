@@ -40,8 +40,8 @@ Corolario: el sitio tiene que **cargar rápido y ser honesto**. Un demo lento o 
 | Imágenes | `astro:assets` → AVIF con fallback WebP, `srcset` responsivo |
 | Tipografías | Self-hosted vía `@fontsource-variable`, subset latino, `woff2` |
 | Íconos | SVG inline a mano. Sin librerías de íconos |
-| Formulario | POST nativo → Cloudflare Pages Function → Resend (ver §8) |
-| Hosting | Cloudflare Pages, deploy automático desde `main` en GitHub |
+| Formulario | POST nativo → Cloudflare Worker → Resend (ver §8) |
+| Hosting | Cloudflare Worker con assets estáticos (`wrangler.jsonc`, binding `ASSETS`), no Cloudflare Pages |
 | Analítica | Cloudflare Web Analytics (sin cookies), opcional |
 
 **No instales nada sin preguntar primero.** Explica qué resuelve, cuánto pesa, y la alternativa a mano. Yo decido. Prohibido explícitamente: librerías de animación, carruseles, sliders, librerías de íconos o de fechas, lightbox, cualquier UI kit, cualquier cosa que agregue JS al cliente más allá de la cuenta regresiva.
@@ -145,7 +145,7 @@ El punto que demuestra oficio de verdad. Hazlo así:
 - **HTML nativo**, `method="POST"`, `action="/api/inscripcion"`. **Sin JavaScript de cliente.** Funciona con JS desactivado — esa es la gracia (mejora progresiva).
 - Campos: nombre, correo, nombre del negocio, tramo (general / taller). `required` nativo del navegador para validación básica.
 - **Honeypot:** un campo oculto (ej. `empresa_web`) invisible para humanos; si viene lleno, es bot → se descarta en silencio. Sin CAPTCHA (metería JS de terceros y peso).
-- **Destino:** una **Cloudflare Pages Function** en `/functions/api/inscripcion.js` (o `.ts`). La Function:
+- **Destino:** el proyecto se despliega como un **Cloudflare Worker con assets estáticos** (no Cloudflare Pages), así que no existe `/functions`. El endpoint vive en `src/worker.js` (`export default { fetch }`), que enruta `POST /api/inscripcion` y delega cualquier otra ruta a `env.ASSETS.fetch(request)` para servir el sitio. La config de Wrangler está en `wrangler.jsonc` (`main: "src/worker.js"`, `assets.binding: "ASSETS"`). El worker:
   1. Lee el POST (form-urlencoded).
   2. Revisa el honeypot.
   3. Valida campos requeridos y formato de correo, del lado servidor.
