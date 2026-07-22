@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+	/* Paleta — CLAUDE.md §5 */
+	--color-crema: #f6f1e9;
+	--color-tinta: #211b14;
+	--color-tinta-2: #4a4034;
+	--color-ambar: #c0761f;
+	--color-terra: #b4552c;
+	--color-espresso: #2e241b;
+	--color-linea: #e2dacb;
+
+	/* Tipografías — CLAUDE.md §5 */
+	--font-display: 'Fraunces Variable', Georgia, serif;
+	--font-body: 'Hanken Grotesk Variable', system-ui, sans-serif;
+
+	/* Escala display — clamp para que crezca sin desbordar a 360px */
+	--text-display-xl: clamp(2.5rem, 2rem + 2.2vw, 3.5rem);
+	--text-display-xl--line-height: 1.05;
+	--text-display-2xl: clamp(3rem, 2.2rem + 3.6vw, 5rem);
+	--text-display-2xl--line-height: 1;
+}
+
+/*
+ * Fraunces trae un eje óptico (opsz) además del de peso (wght): sin activarlo
+ * el navegador renderiza la instancia de tamaño de texto normal también en
+ * titulares grandes, y el serif pierde el carácter que buscamos.
+ */
+.font-display {
+	font-optical-sizing: auto;
+}

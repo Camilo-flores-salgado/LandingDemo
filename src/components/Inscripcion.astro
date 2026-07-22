@@ -1,0 +1,139 @@
+---
+const hasError = Astro.url.searchParams.get('error') === '1';
+---
+
+<section id="inscripcion" class="w-full border-t border-linea bg-crema">
+	<div class="mx-auto max-w-3xl px-6 py-16">
+		<h2 class="font-display text-3xl font-black text-tinta sm:text-4xl">Reserva tu cupo</h2>
+
+		<p class="font-body mt-4 text-lg text-tinta-2">
+			La entrada general es gratis, con inscripción previa. El taller de la tarde tiene cupos
+			limitados.
+		</p>
+
+		<!--
+			Crema sobre ámbar es 3.19:1 (no llega al 4.5:1 de AA), así que la tarjeta
+			de entrada general usa texto en tinta. Sobre espresso, crema pasa
+			13.49:1 sin problema; el precio tachado y la nota van en el tono tenue
+			#A8977D ya usado en Programa (5.34:1 sobre espresso).
+		-->
+		<div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
+			<div class="rounded bg-ambar p-6">
+				<h3 class="font-display text-lg font-bold text-tinta">Entrada general</h3>
+				<p class="font-display mt-4 text-4xl font-black text-tinta">Gratis</p>
+				<p class="font-body mt-2 text-sm text-tinta">con inscripción previa</p>
+			</div>
+
+			<div class="rounded bg-espresso p-6">
+				<h3 class="font-display text-lg font-bold text-crema">Taller intensivo</h3>
+				<p class="font-display mt-4 text-4xl font-black text-crema">
+					$19.000 <s class="ml-1 text-xl font-normal text-[#A8977D]">$29.000</s>
+				</p>
+				<p class="font-body mt-2 text-sm text-[#A8977D]">precio anticipado · cupos limitados</p>
+			</div>
+		</div>
+
+		{
+			hasError && (
+				<div role="alert" class="mt-10 rounded border-2 border-terra bg-crema p-4">
+					<p class="font-body font-semibold text-tinta">
+						No pudimos registrar tu inscripción. Revisa los datos e inténtalo de nuevo.
+					</p>
+				</div>
+			)
+		}
+
+		<form method="POST" action="/api/inscripcion" class="mt-10 flex flex-col gap-6">
+			<div class="flex flex-col gap-2">
+				<label for="nombre" class="font-body font-semibold text-tinta">Nombre</label>
+				<input
+					type="text"
+					id="nombre"
+					name="nombre"
+					required
+					aria-required="true"
+					autocomplete="name"
+					class="rounded border border-linea bg-crema px-4 py-3 text-base text-tinta outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tinta"
+				/>
+			</div>
+
+			<div class="flex flex-col gap-2">
+				<label for="correo" class="font-body font-semibold text-tinta">Correo</label>
+				<input
+					type="email"
+					id="correo"
+					name="correo"
+					required
+					aria-required="true"
+					autocomplete="email"
+					class="rounded border border-linea bg-crema px-4 py-3 text-base text-tinta outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tinta"
+				/>
+			</div>
+
+			<div class="flex flex-col gap-2">
+				<label for="negocio" class="font-body font-semibold text-tinta">Nombre de tu negocio</label>
+				<input
+					type="text"
+					id="negocio"
+					name="negocio"
+					required
+					aria-required="true"
+					autocomplete="organization"
+					class="rounded border border-linea bg-crema px-4 py-3 text-base text-tinta outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tinta"
+				/>
+			</div>
+
+			<fieldset class="flex flex-col gap-3 rounded border border-linea p-4">
+				<legend class="font-body px-1 font-semibold text-tinta">Tramo</legend>
+
+				<label class="font-body flex items-center gap-3 text-tinta">
+					<input
+						type="radio"
+						name="tramo"
+						value="general"
+						checked
+						required
+						aria-required="true"
+						class="h-5 w-5 accent-ambar"
+					/>
+					Entrada general (gratis)
+				</label>
+
+				<label class="font-body flex items-center gap-3 text-tinta">
+					<input
+						type="radio"
+						name="tramo"
+						value="taller"
+						required
+						aria-required="true"
+						class="h-5 w-5 accent-ambar"
+					/>
+					Taller intensivo ($19.000)
+				</label>
+			</fieldset>
+
+			<div class="absolute left-[-9999px] h-px w-px overflow-hidden" aria-hidden="true">
+				<label for="empresa_web">No completar este campo</label>
+				<input
+					type="text"
+					id="empresa_web"
+					name="empresa_web"
+					tabindex="-1"
+					autocomplete="off"
+					aria-hidden="true"
+				/>
+			</div>
+
+			<button
+				type="submit"
+				class="font-body w-fit rounded bg-ambar px-6 py-3 font-bold text-tinta outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tinta"
+			>
+				Enviar inscripción
+			</button>
+
+			<p class="font-body text-sm text-tinta-2">
+				Este es un sitio de demostración: el evento no existe y no se te cobrará nada.
+			</p>
+		</form>
+	</div>
+</section>

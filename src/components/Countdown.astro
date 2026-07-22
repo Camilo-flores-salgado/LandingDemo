@@ -1,0 +1,107 @@
+---
+/*
+ * 2026-11-07T09:00:00-03:00: hora fija de San Felipe (Chile), para que la
+ * cuenta no dependa del huso horario del visitante.
+ */
+---
+
+<div
+	class="flex flex-wrap items-end gap-x-6 gap-y-2"
+	role="group"
+	aria-label="Cuenta regresiva: sábado 7 de noviembre de 2026, 9:00 horas"
+>
+	<p id="countdown-fallback" class="font-body text-sm text-tinta-2">
+		Cuenta regresiva al sábado 7 de noviembre de 2026.
+	</p>
+
+	<div id="countdown-live" class="hidden items-end gap-4">
+		<div class="flex flex-col items-center">
+			<span
+				id="cd-days"
+				class="font-display inline-block min-w-[3ch] text-center text-3xl font-bold tabular-nums text-tinta"
+				>00</span
+			>
+			<span class="font-body text-xs text-tinta-2">días</span>
+		</div>
+		<div class="flex flex-col items-center">
+			<span
+				id="cd-hours"
+				class="font-display inline-block min-w-[2ch] text-center text-3xl font-bold tabular-nums text-tinta"
+				>00</span
+			>
+			<span class="font-body text-xs text-tinta-2">horas</span>
+		</div>
+		<div class="flex flex-col items-center">
+			<span
+				id="cd-minutes"
+				class="font-display inline-block min-w-[2ch] text-center text-3xl font-bold tabular-nums text-tinta"
+				>00</span
+			>
+			<span class="font-body text-xs text-tinta-2">min</span>
+		</div>
+		<div class="flex flex-col items-center">
+			<span
+				id="cd-seconds"
+				class="font-display inline-block min-w-[2ch] text-center text-3xl font-bold tabular-nums text-tinta"
+				>00</span
+			>
+			<span class="font-body text-xs text-tinta-2">seg</span>
+		</div>
+	</div>
+</div>
+
+<script is:inline>
+	(function () {
+		var TARGET = new Date('2026-11-07T09:00:00-03:00').getTime();
+		var fallback = document.getElementById('countdown-fallback');
+		var live = document.getElementById('countdown-live');
+		var elDays = document.getElementById('cd-days');
+		var elHours = document.getElementById('cd-hours');
+		var elMinutes = document.getElementById('cd-minutes');
+		var elSeconds = document.getElementById('cd-seconds');
+
+		function pad(n) {
+			return String(n).padStart(2, '0');
+		}
+
+		function diffParts(ms) {
+			var d = Math.max(ms, 0);
+			return {
+				days: Math.floor(d / 86400000),
+				hours: Math.floor((d % 86400000) / 3600000),
+				minutes: Math.floor((d % 3600000) / 60000),
+				seconds: Math.floor((d % 60000) / 1000),
+			};
+		}
+
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			var staticParts = diffParts(TARGET - Date.now());
+			fallback.textContent = 'Faltan ' + staticParts.days + ' días para el encuentro.';
+			return;
+		}
+
+		fallback.hidden = true;
+		live.classList.remove('hidden');
+		live.classList.add('flex');
+
+		var intervalId = setInterval(tick, 1000);
+		tick();
+
+		function tick() {
+			var remaining = TARGET - Date.now();
+			if (remaining <= 0) {
+				elDays.textContent = '00';
+				elHours.textContent = '00';
+				elMinutes.textContent = '00';
+				elSeconds.textContent = '00';
+				clearInterval(intervalId);
+				return;
+			}
+			var parts = diffParts(remaining);
+			elDays.textContent = pad(parts.days);
+			elHours.textContent = pad(parts.hours);
+			elMinutes.textContent = pad(parts.minutes);
+			elSeconds.textContent = pad(parts.seconds);
+		}
+	})();
+</script>

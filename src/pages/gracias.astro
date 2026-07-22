@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+---
+
+<Base
+	title="Quedaste inscrito — Encuentro PyME Aconcagua"
+	description="Confirmación de inscripción de muestra del Encuentro PyME Aconcagua."
+	path="/gracias"
+	noindex
+>
+	<Header />
+
+	<main>
+		<section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24">
+			<h1 class="font-display text-display-xl font-black text-tinta">¡Listo, quedaste inscrito!</h1>
+
+			<p class="font-body mt-6 max-w-[60ch] text-lg text-tinta-2">
+				Así de simple se inscribiría alguien a tu evento. Esto es una muestra: el Encuentro PyME
+				Aconcagua no existe y no recibirás nada más.
+			</p>
+
+			<a
+				href="/"
+				class="font-body mt-10 inline-block w-fit rounded bg-ambar px-6 py-3 font-bold text-tinta outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tinta"
+			>
+				Volver al inicio
+			</a>
+		</section>
+	</main>
+</Base>

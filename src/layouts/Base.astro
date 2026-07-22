@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+import frauncesLatin from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
+import hankenLatin from '@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url';
+
+interface Props {
+	title: string;
+	description: string;
+	path: string;
+	image?: string;
+	noindex?: boolean;
+}
+
+const { title, description, path, image = '/og-image.jpg', noindex = false } = Astro.props;
+
+const canonicalURL = new URL(path, Astro.site);
+const ogImageURL = new URL(image, Astro.site);
+
+/* Subset latino: cubre español (incl. ñ, tildes, ¿¡) sin cargar cirílico, vietnamita, etc. */
+const latinUnicodeRange =
+	'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD';
+
+/*
+ * @font-face no forma parte de la cascada de un elemento, así que var() no se
+ * resuelve de forma confiable en sus descriptores (src, unicode-range). Por
+ * eso el CSS va con las URLs ya resueltas, inyectado como texto plano.
+ */
+const fontFaceCSS = `
+	@font-face {
+		font-family: 'Fraunces Variable';
+		font-style: normal;
+		font-weight: 100 900;
+		font-display: swap;
+		src: url(${frauncesLatin}) format('woff2-variations');
+		unicode-range: ${latinUnicodeRange};
+	}
+	@font-face {
+		font-family: 'Hanken Grotesk Variable';
+		font-style: normal;
+		font-weight: 100 900;
+		font-display: swap;
+		src: url(${hankenLatin}) format('woff2-variations');
+		unicode-range: ${latinUnicodeRange};
+	}
+`;
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+		{noindex && <meta name="robots" content="noindex" />}
+
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImageURL} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageURL} />
+
+		<link rel="preload" as="font" type="font/woff2" href={frauncesLatin} crossorigin />
+		<link rel="preload" as="font" type="font/woff2" href={hankenLatin} crossorigin />
+
+		<style set:html={fontFaceCSS}></style>
+
+		<!-- Cloudflare Web Analytics: pendiente, no activar todavía -->
+	</head>
+	<body class="bg-crema text-tinta font-body">
+		<slot />
+	</body>
+</html>

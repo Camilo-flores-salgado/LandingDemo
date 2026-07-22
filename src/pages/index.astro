@@ -1,17 +1,55 @@
 ---
-
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Countdown from '../components/Countdown.astro';
+import QueEsParaQuien from '../components/QueEsParaQuien.astro';
+import Programa from '../components/Programa.astro';
+import Relatores from '../components/Relatores.astro';
+import Inscripcion from '../components/Inscripcion.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base
+	title="Encuentro PyME Aconcagua — Sábado 7 de noviembre de 2026"
+	description="Un día de charlas y talleres prácticos para dueñas y dueños de negocios del valle de Aconcagua. Casona Aconcagua, San Felipe."
+	path="/"
+>
+	<Header />
+
+	<main>
+		<section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24">
+			<p class="font-body text-xl font-bold uppercase tracking-widest text-terra">
+				Primer encuentro del valle
+			</p>
+
+			<h1 class="font-display mt-4 text-display-xl font-black text-tinta">
+				Hacer crecer tu negocio, en un solo día.
+			</h1>
+
+			<p class="font-body mt-6 max-w-[34ch] text-lg text-tinta-2">
+				Un día de charlas y talleres prácticos para dueñas y dueños de negocios del valle de
+				Aconcagua.
+			</p>
+
+			<p class="font-body mt-4 text-xl font-semibold text-tinta">
+				Sábado 7 de noviembre, 2026 <span class="font-bold text-terra">·</span> Club San Felipe,
+				San Felipe
+			</p>
+
+			<div class="mt-10 flex flex-wrap items-center gap-8">
+				<a
+					href="#inscripcion"
+					class="font-body w-fit rounded bg-ambar px-6 py-3 font-bold text-tinta outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tinta"
+				>
+					Inscríbete gratis
+				</a>
+
+				<Countdown />
+			</div>
+		</section>
+	</main>
+
+	<QueEsParaQuien />
+	<Programa />
+	<Relatores />
+	<Inscripcion />
+</Base>
