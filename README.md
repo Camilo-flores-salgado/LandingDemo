@@ -1,43 +1,32 @@
-# Astro Starter Kit: Minimal
+# Encuentro PyME Aconcagua — Demo Landing Page
 
-```sh
-npm create astro@latest -- --template minimal
-```
+A demo event-registration landing page, built to show local business owners (and other developers) what a fast, honest, hand-built site looks like. The event itself is fictional — the site says so, clearly.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**Live:** https://landingdemo1.houdini-dev.workers.dev/
 
-## 🚀 Project Structure
+## Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- Astro 5, static output
+- TailwindCSS 4
+- TypeScript (strict)
+- Cloudflare Worker (static assets + API route), no Cloudflare Pages
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+  ## Highlights
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+  - 100/100 Lighthouse performance on mobile, LCP 1.4s, CLS 0
+  - Registration form works with JavaScript fully disabled: native HTML POST, progressively enhanced
+  - Server-side validation and honeypot spam protection, no CAPTCHA / no third-party JS
+  - Real email delivery on submit via Resend, sent from a Cloudflare Worker endpoint
+  - Under 2KB of client JS (only the countdown timer)
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+    ## Related project
 
-Any static assets, like images, can be placed in the `public/` directory.
+    The personal site sharing this project's design DNA is [camiloflores.cl](https://github.com/Camilo-flores-salgado/CamiloWeb) — separate repo, separate stack decisions, same performance discipline.
 
-## 🧞 Commands
+    ## Local development
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+    ```
+    npm install
+    npm run dev
+    ```
+    
